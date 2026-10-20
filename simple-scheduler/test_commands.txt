@@ -1,0 +1,3 @@
+submit ./long_job
+submit ./long_job2
+exit

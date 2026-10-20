@@ -1,0 +1,33 @@
+#ifndef SCHEDULER_H
+#define SCHEDULER_H
+
+#include <sys/types.h>
+#include <time.h>
+
+#define MAX_JOBS 1000
+#define MAX_PROGRAM_NAME 256
+
+typedef struct {
+    pid_t pid;
+    char program_name[MAX_PROGRAM_NAME];
+    time_t submission_time;
+    time_t completion_time;
+    int completion_time_slices;
+    double submission_monotonic;
+    int completed;
+    int total_wait_time;
+} Job;
+typedef struct {
+    Job jobs[MAX_JOBS];
+    int front;
+    int rear;
+    int job_count;
+} ReadyQueue;
+
+int initialize_scheduler(int NCPU, int TSLICE);
+int submit_job(const char *program_name);
+void scheduler_loop(void);
+void request_scheduler_stop(void);
+void shutdown_scheduler(void);
+
+#endif
